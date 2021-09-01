@@ -12,7 +12,13 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import GroupIcon from '@material-ui/icons/Group';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import HomeIcon from '@material-ui/icons/Home';
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -22,7 +28,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Box from '@material-ui/core/Box';
 import { Drawer } from '@material-ui/core';
 
-import pic from './Telstr.png';
+import pic from './Telstra.png';
 
 const drawerWidth = 240;
 
@@ -86,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
-    width: '100%',
+    width: '90%',
     [theme.breakpoints.up('md')]: {
       width: '80ch',
     },
@@ -104,6 +110,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+function ListItemLink(props) {
+    return <ListItem button component="a" {...props} />;
+  }
 
 function NavBar() {
   const classes = useStyles();
@@ -127,15 +137,14 @@ function NavBar() {
             className={clsx(classes.menuButton, open && classes.hide)}
             color="#000"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
-          >
+            onClick={handleDrawerOpen}>
             <MenuIcon />
           </IconButton>
-          <img height='40px' width="40px" src={pic} align="center" ></img>
+          <a href='/'><img height='40px' width="40px" src={pic} align="center" ></img></a>
           <Box padding="2px" color="#000">
-            <b>Skill Enhancement</b> <br />
-            Portal
-            </Box>
+            <a href='/home' style={{textDecoration:'None'}}><b>Skill Enhancement</b> <br />
+            Portal</a>
+          </Box>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
@@ -159,9 +168,7 @@ function NavBar() {
             <IconButton
               edge="end"
               aria-label="account of current user"
-            //   aria-controls={menuId}
               aria-haspopup="true"
-            //   onClick={}
               color="#000"
             >
               <AccountCircle />
@@ -170,9 +177,7 @@ function NavBar() {
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
-            //   aria-controls={mobileMenuId}
               aria-haspopup="true"
-            //   onClick={handleMobileMenuOpen}
               color="#000"
             >
               <MoreIcon />
@@ -196,11 +201,13 @@ function NavBar() {
         </div>
         <Divider />
         <List>
-          {['Home', 'Questions', 'Users', 'Ask Question'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItemLink href="/"><ListItemIcon><HomeIcon /></ListItemIcon><ListItemText primary="Home" /></ListItemLink>
+          <ListItemLink href="/questions"><ListItemIcon><QuestionAnswerIcon /></ListItemIcon><ListItemText primary="Questions" /></ListItemLink>
+          <ListItemLink href="/trending"><ListItemIcon><WhatshotIcon /></ListItemIcon><ListItemText primary="Trending" /></ListItemLink>
+          <ListItemLink href="/users"><ListItemIcon><GroupIcon /></ListItemIcon><ListItemText primary="Users" /></ListItemLink>
+          <ListItemLink href="/askquestion"><ListItemIcon><PostAddIcon /></ListItemIcon><ListItemText primary="Ask Question" /></ListItemLink>
+          <ListItemLink href="/profile"><ListItemIcon><AccountCircle /></ListItemIcon><ListItemText primary="Profile" /></ListItemLink>
+          <ListItemLink href="/logout"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log Out" /></ListItemLink>
         </List>
         <Divider />
         </Drawer>
