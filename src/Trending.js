@@ -27,10 +27,6 @@ function Trending(props)
     const preventDefault = (event) => event.preventDefault();
     return(
         <form action="" name = "trending" className ={classes.root}>
-        <Typography gutterBottom variant="h4" component="h4" color ="#000">
-            <b>Trending Questions</b>
-        </Typography>
-        <Divider/>
         <Box>
             <Typography gutterBottom variant="h5" component="h4" color ="#000">
                 <Link href="/question">

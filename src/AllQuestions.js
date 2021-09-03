@@ -12,6 +12,8 @@ import { breakpoints } from "@material-ui/system";
 import { Button } from '@material-ui/core';
 import { Route,NavLink,HashRouter } from 'react-router-dom';
 import Trending from "./Trending";
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 
 const drawerWidth=300
 
@@ -81,27 +83,38 @@ export default function Question()
                  Question Title
 
          </Typography>
-         <Divider/>
          </Box>
          <Box>
          <Typography gutterBottom variant="h6" component="h4" color ="#000" >
             Question Description
          </Typography>
+         <Typography align="center">
+             <ThumbUpIcon/> Question Score  <ThumbDownIcon/>
+          </Typography>
          <Divider/>
          </Box>
          <Box>
          <Typography gutterBottom variant="h6" component="h4" color ="#000" >
             Comments for question
          </Typography>
+         <Typography align="center">
+             <ThumbUpIcon/>  Comment Score for question  <ThumbDownIcon/>
+          </Typography>
          <Divider/>
          </Box>
          <Box>
             <Typography gutterBottom variant="h6" component="h4" color ="#000" >
                     Answer for question
+                    <Typography align="center">
+                        <ThumbUpIcon/>  Answer Score  <ThumbDownIcon/>
+                    </Typography>
                     <Divider/>
                     <Box>
                     <Typography gutterBottom variant="h6" component="h4" color ="#000" >
                             Comments for answer
+                    </Typography>
+                    <Typography align="center">
+                        <ThumbUpIcon/>  Comment Score for answer  <ThumbDownIcon/>
                     </Typography>
                     <Divider/>
                     </Box>

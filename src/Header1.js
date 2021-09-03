@@ -7,9 +7,9 @@ import { Typography } from '@material-ui/core';
 function Header1(props){
   return (
     <div>
-            <Toolbar style={{padding : "0px 200px"}}>
-                <Typography type="title" color="textPrimary" style={{ flex: 1 }}>
-                    Title
+            <Toolbar style={{padding : "10px 200px"}}>
+                <Typography gutterBottom variant="h5" color ="#textprimary" type="title" style={{ flex: 1}}>
+                    {props.heading}
                 </Typography>
                 <div>
                 <Button variant="contained" color="primary" href = "/askquestion">

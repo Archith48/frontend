@@ -34,8 +34,7 @@ function AskQuestion(){
                 Be specific and imagin you are asking question to another person
             </Typography>
             </Box>
-            <TextField id="outlined-basic" label="Title of Question" width="100%" variant="outlined" />
-
+            <TextField id="outlined-basic" label="Title of Question" width="100%" variant="outlined"/>
             <Box>
                 <Typography gutterBottom variant="h6" component="h5" color ="#000">
                     Body:
@@ -44,7 +43,7 @@ function AskQuestion(){
                     Include all the information someone would need to answer your question
                 </Typography>
             </Box>
-            <TextareaAutosize id="outlined-basic" aria-label="minimum height" width="95%" minRows={10} />
+            <TextareaAutosize id="outlined-basic" aria-label="minimum height" width="95%" minRows={10} placeholder = "Enter Detail Description of Question here" />
 
             <Box>
             <Typography gutterBottom variant="h6" component="h5" color ="#000">

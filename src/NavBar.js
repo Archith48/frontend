@@ -26,7 +26,9 @@ import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Box from '@material-ui/core/Box';
-import { Drawer } from '@material-ui/core';
+import { ClickAwayListener, Drawer, Popover } from '@material-ui/core';
+import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import { Button } from '@material-ui/core';
 
 import pic from './Telstra.png';
 
@@ -109,11 +111,17 @@ const useStyles = makeStyles((theme) => ({
       display: 'none',
     },
   },
+  popover: {
+    pointerEvents: 'none',
+  },
+  paper: {
+    padding: theme.spacing(1),
+  },
 }));
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
-  }
+}
 
 function NavBar() {
   const classes = useStyles();
@@ -129,6 +137,7 @@ function NavBar() {
   };
 
   return (
+    <ClickAwayListener onClickAway={handleDrawerClose}>
     <div className={classes.grow}>
       <AppBar position="static" style={{ background: '#FFFAFA' }}>
         <Toolbar>
@@ -145,9 +154,11 @@ function NavBar() {
             <a href='/home' style={{textDecoration:'None'}}><b>Skill Enhancement</b> <br />
             Portal</a>
           </Box>
+          <PopupState>
+          {(popupState) => (
           <div className={classes.search}>
             <div className={classes.searchIcon}>
-              <SearchIcon />
+            <SearchIcon/>
             </div>
             <InputBase
               placeholder="Search…"
@@ -156,8 +167,37 @@ function NavBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              {...bindTrigger(popupState)}
             />
+            <Popover
+            {...bindPopover(popupState)}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            PaperProps={{
+              style: { width: '60%' }
+            }}
+          >
+            <Box p={2}>
+              <Typography>
+                <b>[tag]</b> Search by a tag <br /><br />
+                <b>name: username</b> Search by a user <br /><br />
+                <b>"word here"</b> Search by a post <br /><br />
+                <Divider /><br />
+                <Button variant="contained" color="primary" href = "/askquestion">
+                    Ask Question
+                </Button>
+              </Typography>
+            </Box>
+          </Popover>
           </div>
+          )}
+          </PopupState>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 17 new notifications" color="#000">
@@ -212,6 +252,7 @@ function NavBar() {
         <Divider />
         </Drawer>
     </div>
+    </ClickAwayListener>
   );
 }
 
