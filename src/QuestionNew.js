@@ -56,24 +56,27 @@ function ListItemLink(props) {
 
 function QuestionN(){
     const classes=useStyles()
-    const [notes,setNotes]=useState([]);
+    const [similarQ,setNotes]=useState([]);
     const preventDefault = (event) => event.preventDefault();
 
     useEffect(()=>{
-        fetch("http://localhost:3300/trending")
-        .then(res=>res.json())
+    fetch('http://localhost:3300/suggested',{
+        method:'POST',
+        headers:{"Content-type":"application/json"},
+        body:JSON.stringify({"Title":"Testing Jtest v1.2",
+            "Body":"Jest Testing going on"})
+        })//.then(()=>history.push('/'))  
+        .then(res=>(res.json()))
         .then(data=>{setNotes(data)
             console.log(data)
-        })
+        })      
     },[])
-    var similarQ=[
-        "Similar question 1","Similar question 2","Similar question 3","Similar question 4","Similar question 5","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3","Similar question 3"
-    ]
+
     var answers = ["answer1","answer2","answer3"]
     var commentQ = ["comment1","comment 2"]
     var commentA = [["commentA11","commentA12"],[],["commentA31"]]
 
- return(
+    return(
      <div>
         <Grid container spacing={1}>
             <Grid item xs={9}>
@@ -169,7 +172,7 @@ function QuestionN(){
                             <Route path="/question" component={Question}></Route>
                         </HashRouter>*/}
                           <ListItemLink href="/question">
-                            <ListItemText primary={text}/>
+                            <ListItemText primary={text.Title}/>
                           </ListItemLink>
                     </Typography>
                     <Divider/>
