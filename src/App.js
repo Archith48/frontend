@@ -9,6 +9,12 @@ import Trending from './Trending';
 import Question from './Question';
 import AllQuestions from './AllQuestions';
 import Home from './Home';
+import QuestionN from './QuestionNew';
+import SearchUser from './SearchUser';
+import SearchPost from './SearchPost';
+import SearchTag from './SearchTag';
+import Users from './Users';
+import Profile from './Profile';
 
 function App() {
   document.title = "Skill Enhancment Portal"
@@ -31,7 +37,16 @@ function App() {
             </Route>
             <Route path='/question'>
               <Header1 heading = "Question Title" />
-              <Question />
+              <QuestionN />
+            </Route>
+            <Route path='/users'>
+              <Users />
+            </Route>
+            <Route path='/profile'>
+              <Profile />
+            </Route>
+            <Route path='/'>
+              <Home />
             </Route>
           </Switch>
         </Router>
@@ -39,5 +54,26 @@ function App() {
     </div>
   );
 }
+
+
+// function App() {
+//   document.title = "Skill Enhancment Portal"
+//   return (   
+//     <div>
+//       <NavBar />
+//       <Router>
+//       <Switch>      
+//         <Route exact path="/searchuser" component={SearchUser}/>
+//         <Route exact path="/searchpost" component={SearchPost}/>
+//         <Route exact path="/searchTags" component={SearchTag}/>
+//         <Route exact path="/question" component={Question}/>
+//         <Route eaxct path="/trending" component={Trending}/>
+//       </Switch>
+//       </Router>
+//     </div>
+   
+//   );
+// }
+
 
 export default App;

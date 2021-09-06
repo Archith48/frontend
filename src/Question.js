@@ -12,6 +12,9 @@ import { breakpoints } from "@material-ui/system";
 import { Button } from '@material-ui/core';
 import { Route,NavLink,HashRouter } from 'react-router-dom';
 import Trending from "./Trending";
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import IconButton from '@material-ui/core/IconButton';
 
 const drawerWidth=300
 
@@ -48,7 +51,7 @@ export default function Question()
         <div>
         
         <div className={classes.root}>
-        
+            
             <Drawer className={classes.drawer} 
             variant="permanent" 
             anchor="right"
@@ -72,7 +75,7 @@ export default function Question()
                     </Box>
                     ))}
                 </List>  
-                </Box>              
+                </Box>            
             </Drawer>
         </div>
          <div>
@@ -81,18 +84,35 @@ export default function Question()
                  Question Title
 
          </Typography>
-         <Divider/>
          </Box>
          <Box>
          <Typography gutterBottom variant="h6" component="h4" color ="#000" >
             Question Description
-         </Typography>
+         </Typography>         
+         <Typography align="center">
+            <IconButton color="primary">
+                <ThumbUpIcon/>
+            </IconButton>
+            Question Score  
+            <IconButton color="primary">
+                <ThumbDownIcon/>
+            </IconButton>
+          </Typography>
          <Divider/>
          </Box>
          <Box>
          <Typography gutterBottom variant="h6" component="h4" color ="#000" >
             Comments for question
          </Typography>
+         <Typography align="center">
+            <IconButton color="primary">
+                <ThumbUpIcon/>
+            </IconButton>
+            Comment Score for question
+            <IconButton color="primary">
+                <ThumbDownIcon/>
+            </IconButton>
+          </Typography>
          <Divider/>
          </Box>
          <Box>
@@ -102,6 +122,15 @@ export default function Question()
                     <Box>
                     <Typography gutterBottom variant="h6" component="h4" color ="#000" >
                             Comments for answer
+                    </Typography>
+                    <Typography align="center">
+                        <IconButton color="primary">
+                            <ThumbUpIcon/>
+                        </IconButton>
+                        Comment Score for answer 
+                        <IconButton color="primary">
+                            <ThumbDownIcon/>
+                        </IconButton>
                     </Typography>
                     <Divider/>
                     </Box>

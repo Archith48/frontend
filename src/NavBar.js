@@ -30,6 +30,8 @@ import { ClickAwayListener, Drawer, Popover } from '@material-ui/core';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Button } from '@material-ui/core';
 
+import { useHistory } from "react-router-dom";
+
 import pic from './Telstra.png';
 
 const drawerWidth = 240;
@@ -124,6 +126,7 @@ function ListItemLink(props) {
 }
 
 function NavBar() {
+  document.title = "Skill Enhancment Portal"
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -135,6 +138,32 @@ function NavBar() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const history = useHistory();
+
+  const handleKeyDown=(e)=>{
+    if (e.key==='Enter')
+    {
+      console.log("Entered")
+      console.log(e.target.value)
+      if ((e.target.value).indexOf("name:")==0)
+      {
+        history.push("/searchuser")
+        console.log("Name entered")
+        console.log("After title")       
+      }
+      else if ((e.target.value).indexOf('"')==0 && (e.target.value).lastIndexOf('"')==(e.target.value).length-1)
+      {
+        history.push("/searchpost")
+        console.log("Post entered")
+      }
+      else
+      {
+        history.push("/searchTags")
+        console.log("Tag entered")
+      }
+    }
+  }
 
   return (
     <ClickAwayListener onClickAway={handleDrawerClose}>
@@ -167,6 +196,7 @@ function NavBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              onKeyPress={handleKeyDown}
               {...bindTrigger(popupState)}
             />
             <Popover

@@ -8,6 +8,10 @@ import React from 'react';
 import  {Route as Router} from 'react-router-dom';
 import { Route,NavLink,HashRouter } from 'react-router-dom';
 import Question from './Question';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { IconButton } from '@material-ui/core';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -47,6 +51,15 @@ function SearchPost(props)
             <Typography gutterBottom variant="h6" color ="#000">
                     Search Question Description(Body)
             </Typography>
+            <Typography align="center">
+                <IconButton color="primary" >
+                    <ThumbUpIcon/>
+                </IconButton>
+                Question Score
+                <IconButton color="primary" >
+                    <ThumbDownIcon/>
+                </IconButton>
+            </Typography>
             <Divider/>
             </div>
             <h3>Answer:</h3>
@@ -54,11 +67,19 @@ function SearchPost(props)
             <Typography gutterBottom variant="h6" color ="#000">
                     Search Answer
             </Typography>
+            <Typography align="center">
+                <IconButton color="primary" >
+                    <ThumbUpIcon/>
+                </IconButton>
+                Answer Score
+                <IconButton color="primary" >
+                    <ThumbDownIcon/>
+                </IconButton>
+            </Typography>
             <Divider/>
             </div>
         </Box>
         </form>
     )
 }
-
 export default SearchPost
