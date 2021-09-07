@@ -8,7 +8,10 @@ import React from 'react';
 import  {Route as Router} from 'react-router-dom';
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { IconButton } from '@material-ui/core';
+import { useState, useEffect } from 'react';
+import Header1 from './Header1';
+import NavBar from './NavBar';
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -26,35 +29,45 @@ const useStyles = makeStyles((theme) => ({
 function AllQuestions(props)
 {
     const classes = useStyles();
+    const[notes,setNotes]=useState([])
+    const questions=[]
+    const answers=[]
+    const QA=[]
+    var i=0
+    var j=0
     const preventDefault = (event) => event.preventDefault();
+        useEffect(()=>{
+            fetch("http://localhost:3300/mainpage2")
+            .then(res=>res.json())
+            .then(data=>{setNotes(data["questions"])
+                console.log(data)
+            })
+        },[])
+
+       
     return(
+        <div>
+            <NavBar />
+            <Header1 heading="All Questions"/>
         <form action="" name = "allquestions" className ={classes.root}>
+        <Divider/>
+        {notes.map(e =>(
         <Box>
-            <h3>Question:</h3>
             <div style={{marginLeft:100}}>
-            <Typography gutterBottom variant="h6" color ="#000">
+            <Typography gutterBottom variant="h6" color ="default">
                 <Link href="/question">
-                    Question Title
+                    {e.Title}
                 </Link>
-                {/*<HashRouter>
-                    <NavLink to="/question">Search Question</NavLink>
-                    <Route path="/question" component={Question}/>
-                </HashRouter>*/}
             </Typography>
-            <Typography gutterBottom variant="h6" color ="#000">
-                    Question Description(Body)
-            </Typography>
-            <Divider/>
-            </div>
-            <h3>Answer:</h3>
-            <div style={{marginLeft:100}}>
-            <Typography gutterBottom variant="h6" color ="#000">
-                    Question Answer
+            <Typography gutterBottom variant="h6" color ="default">
+                   {e.Body}
             </Typography>
             <Divider/>
             </div>
         </Box>
+        ))}
         </form>
+        </div>
     )
 }
 export default AllQuestions

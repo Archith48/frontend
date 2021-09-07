@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 import SettingsIcon from '@material-ui/icons/Settings';
+import NavBar from './NavBar';
 
 const useStyles=makeStyles((theme)=> ({
     grow: {
@@ -150,7 +151,9 @@ function Profile() {
     };
   
     return (
-        <><div className={classes.roots}><a href='/profile'>
+        <>
+        <NavBar />
+        <div className={classes.roots}><a href='/profile'>
             <img height='120px' width="120px" src={pic} alt="ProfileImage" align="center" style={{marginTop:'20px'}} ></img></a>
             <Box padding="50px" color="textsecondary">
                 <a href='/profile' style={{ textDecoration: 'None' }}>

@@ -12,6 +12,10 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { IconButton } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
+import { useEffect } from 'react';
+import { useState } from 'react';
+import NavBar from './NavBar';
+import Header1 from './Header1';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -29,57 +33,41 @@ const useStyles = makeStyles((theme) => ({
 function SearchPost(props)
 {
     const classes = useStyles();
+    const [notes,setNotes]=useState([])
     const preventDefault = (event) => event.preventDefault();
+    useEffect(()=>{
+        fetch('http://localhost:3300/searchposts',{
+            method:'POST',
+            headers:{"Content-type":"application/json"},
+            body:JSON.stringify({"search_string":"oauth"})
+            })//.then(()=>history.push('/'))  
+            .then(res=>(res.json()))      
+            .then(data=>{setNotes(data["questions"])
+                console.log(data)
+            })      
+        },[])
     return(
-        <form action="" name = "searchpost" className ={classes.root}>
-        <Typography gutterBottom variant="h4" component="h4" color ="#000">
-            <b>Search Results</b>
-        </Typography>
-        <Divider/>
-        <Box>
-            <h3>Question:</h3>
-            <div style={{marginLeft:100}}>
-            <Typography gutterBottom variant="h6" color ="#000">
-                <Link href="/question">
-                    Search Question
-                </Link>
-                {/*<HashRouter>
-                    <NavLink to="/question">Search Question</NavLink>
-                    <Route path="/question" component={Question}/>
-                </HashRouter>*/}
-            </Typography>
-            <Typography gutterBottom variant="h6" color ="#000">
-                    Search Question Description(Body)
-            </Typography>
-            <Typography align="center">
-                <IconButton color="primary" >
-                    <ThumbUpIcon/>
-                </IconButton>
-                Question Score
-                <IconButton color="primary" >
-                    <ThumbDownIcon/>
-                </IconButton>
-            </Typography>
-            <Divider/>
-            </div>
-            <h3>Answer:</h3>
-            <div style={{marginLeft:100}}>
-            <Typography gutterBottom variant="h6" color ="#000">
-                    Search Answer
-            </Typography>
-            <Typography align="center">
-                <IconButton color="primary" >
-                    <ThumbUpIcon/>
-                </IconButton>
-                Answer Score
-                <IconButton color="primary" >
-                    <ThumbDownIcon/>
-                </IconButton>
-            </Typography>
-            <Divider/>
-            </div>
-        </Box>
-        </form>
+        <div>
+            <NavBar />
+            <Header1 heading="Search Post Results" />
+            <form action="" name = "searchpost" className ={classes.root}>
+            <Box>   
+            {notes.map(e=>(
+                <div style={{marginLeft:100}}>
+                <Typography gutterBottom variant="h6" color ="#000">
+                    <Link href="/question">
+                    {e.Title}
+                    </Link>
+                </Typography>
+                <Typography gutterBottom variant="h6" color ="#000">
+                        {e.Body}
+                </Typography>
+                <Divider/>
+                </div>
+            ))}
+            </Box>
+            </form>
+        </div>
     )
 }
 export default SearchPost

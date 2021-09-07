@@ -14,6 +14,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -43,6 +44,8 @@ function SearchUser(props)
         createData('Sam',20,50)
       ];
     return(
+        <div>
+        <NavBar />
         <form action="" name = "searchuser" className ={classes.root}>
         <Typography gutterBottom variant="h4" component="h4">
             <b>Search Results</b>
@@ -73,6 +76,7 @@ function SearchUser(props)
             </TableContainer>
             </Box>
         </form>
+        </div>
     )
 }
 

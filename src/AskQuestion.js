@@ -6,6 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import { Button } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -17,11 +20,26 @@ const useStyles = makeStyles((theme) => ({
           width: "100%"
         }
     },
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: 1500,
+    },
+    page: {
+        background:"white",
+        width:"100%"
+    }
 }));
 
 function AskQuestion(){
     const classes = useStyles();
     return(
+        <div>
+        <NavBar />
+        <br />
+        <Grid container spacing={1}>
+        <Grid item xs={12}>
+        <Paper className={classes.paper}>
         <form action="" name = "questionForm" className ={classes.root}>
             <Typography gutterBottom variant="h4" component="h5" color ="#000">
                 <b>Ask a Public Question</b>
@@ -60,6 +78,10 @@ function AskQuestion(){
             </Button>
             </div>
         </form>
+        </Paper>
+        </Grid>
+        </Grid>
+        </div>
     )
 }
 export default AskQuestion;

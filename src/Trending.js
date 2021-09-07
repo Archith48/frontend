@@ -12,6 +12,9 @@ import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { IconButton } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 
+import Header1 from './Header1';
+import NavBar from './NavBar';
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -63,7 +66,11 @@ function Trending(props)
             console.log(data)
         })
     },[])
+
     return(
+        <div>
+        <NavBar />
+        <Header1 heading = "Trending Questions"/>
         <form action="" name = "trending" className ={classes.root}>
         <Box>
             <Typography gutterBottom variant="h5" component="h4" color ="#000">
@@ -85,6 +92,7 @@ function Trending(props)
             <Divider/>
         </Box>
         </form>
+        </div>
     )
 }
 export default Trending

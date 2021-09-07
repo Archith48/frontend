@@ -7,6 +7,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import { Button } from '@material-ui/core';
 
 import pic from './Telstra.png';
+import NavBar from './NavBar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +39,10 @@ function Home() {
   const classes = useStyles();
 
   return (
+    <div>
+      <NavBar />
     <div className={classes.root}>
+      <br />
       <Paper className={classes.paper}>
         <Grid container spacing={2}>
           <Grid item>
@@ -99,6 +103,7 @@ function Home() {
             </Grid>
         </Grid>
         </Paper>
+    </div>
     </div>
   );
 }
