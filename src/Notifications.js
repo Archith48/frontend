@@ -1,7 +1,12 @@
 import React from "react";
+import { Typography } from "@material-ui/core";
 
-function Notification(){
-
+function Notifications(){
+    return(
+        <div>
+            <Typography>Hello</Typography>
+        </div>
+    )
 }
 
-export default Notification;
+export default Notifications;

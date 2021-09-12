@@ -1,4 +1,3 @@
-
 import React from 'react';
 import clsx from 'clsx';
 import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
@@ -7,18 +6,14 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import GroupIcon from '@material-ui/icons/Group';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import HomeIcon from '@material-ui/icons/Home';
 import PostAddIcon from '@material-ui/icons/PostAdd';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import ListItemText from '@material-ui/core/ListItemText';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
@@ -31,6 +26,8 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Button } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import pic from './Telstra.png';
+import NavBarChanges from './NavBarChanges';
+import SideBarChanges from './SideBarChanges';
 
 var isLoggedIn = false
 const drawerWidth = 240;
@@ -110,58 +107,6 @@ const useStyles = makeStyles((theme) => ({
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
-}
-
-function NavBarChanges(){
-  if (isLoggedIn){
-    return(
-      <div>
-        <IconButton aria-label="show 17 new notifications" color="#000">
-          <Badge badgeContent={17} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <IconButton
-          edge="end"
-          aria-label="account of current user"
-          aria-haspopup="true"
-          color="#000"
-        >
-          <AccountCircle />
-        </IconButton>
-      </div>
-    )
-  }
-  else {
-    return(
-      <div>
-        <Button variant="contained" color="primary" href='/login'>
-            LogIn
-        </Button>
-        <Button variant="outlined" color="primary" href = "/login">
-            SignUp
-        </Button>
-      </div>
-    )
-  }
-}
-
-function SideBarChanges(){
-  if (isLoggedIn){
-    return(
-      <div>
-      <ListItemLink href="/profile"><ListItemIcon><AccountCircle /></ListItemIcon><ListItemText primary="Profile" /></ListItemLink>
-      <ListItemLink href="/logout"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log Out" /></ListItemLink>
-      </div>
-    )
-  }
-  else{
-    return(
-      <div>
-      <ListItemLink href="/login"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log In" /></ListItemLink>
-      </div>
-    )
-  }
 }
 
 function NavBar() {
@@ -272,7 +217,7 @@ function NavBar() {
           )}
           </PopupState>
           <div className={classes.grow} />
-          <NavBarChanges />
+          <NavBarChanges status = {isLoggedIn}/>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -296,7 +241,7 @@ function NavBar() {
           <ListItemLink href="/trending"><ListItemIcon><WhatshotIcon /></ListItemIcon><ListItemText primary="Trending" /></ListItemLink>
           <ListItemLink href="/users"><ListItemIcon><GroupIcon /></ListItemIcon><ListItemText primary="Users" /></ListItemLink>
           <ListItemLink href="/askquestion"><ListItemIcon><PostAddIcon /></ListItemIcon><ListItemText primary="Ask Question" /></ListItemLink>
-          <SideBarChanges />
+          <SideBarChanges status={isLoggedIn}/>
         </List>
         <Divider />
         </Drawer>
