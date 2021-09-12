@@ -1,5 +1,4 @@
 import '@fontsource/roboto';
-import Grid from "@material-ui/core/Grid";
 
 import AskQuestion from './AskQuestion';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -12,65 +11,29 @@ import SearchPost from './SearchPost';
 import SearchTag from './SearchTag';
 import Users from './Users';
 import Profile from './Profile';
-
-// function App() {
-//   document.title = "Skill Enhancment Portal"
-//   return (
-//     <div>
-//       <Grid>
-//       <NavBar />
-//         <Router>
-//           <Switch>
-//             <Route path='/askquestion'>
-//               <AskQuestion />
-//             </Route>
-//             <Route path='/questions'>
-//               <AllQuestions />
-//             </Route>
-//             <Route path='/trending'>
-//               <Trending />
-//             </Route>
-//             <Route path='/question'>
-//               <Question />
-//             </Route>
-//             <Route path='/users'>
-//               <Users />
-//             </Route>
-//             <Route path='/profile'>
-//               <Profile />
-//             </Route>
-//             <Route path='/'>
-//               <Home />
-//             </Route>
-//           </Switch>
-//         </Router>
-//       </Grid>
-//     </div>
-//   );
-// }
-
+import Login from './Login';
 
 function App() {
   document.title = "Skill Enhancment Portal"
   return (   
     <div>
       <Router>
-      <Switch>     
+      <Switch>
         <Route exact path="/questions" component={AllQuestions}/>
         <Route exact path="/profile" component={Profile}/> 
         <Route exact path="/users" component={Users}/>
         <Route exact path="/askquestion" component={AskQuestion}/>
-        <Route exact path="/searchuser" component={SearchUser}/>
-        <Route exact path="/searchpost" component={SearchPost}/>
-        <Route exact path="/searchTags" component={SearchTag}/>
-        <Route exact path="/question" component={Question}/>
+        <Route exact path="/searchpost/:search_string" component={SearchPost}/>
+        <Route exact path="/searchTags/:tag" component={SearchTag}/>
+        <Route exact path="/searchcusts/:name" component={SearchUser}/>
+        <Route exact path="/question/:q_id" component={Question}/>
         <Route exact path="/trending" component={Trending}/>
+        <Route exact path="/login" component={Login} />
         <Route path= "/" component={Home}/>
       </Switch>
       </Router>
     </div>
   );
 }
-
 
 export default App;

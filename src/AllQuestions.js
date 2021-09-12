@@ -1,17 +1,12 @@
-import '@fontsource/roboto';
-import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link'
 import React from 'react';
-import  {Route as Router} from 'react-router-dom';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
 import { useState, useEffect } from 'react';
+import { Grid, Paper } from '@material-ui/core';
 import Header1 from './Header1';
 import NavBar from './NavBar';
-
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -20,9 +15,17 @@ const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
           margin: theme.spacing(1),
-          width: "100%"
+          width: "100%",
         }
-      
+    },
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: 1500,
+    },
+    page: {
+        background:"white",
+        width:"100%"
     }
 }));
 
@@ -30,11 +33,6 @@ function AllQuestions(props)
 {
     const classes = useStyles();
     const[notes,setNotes]=useState([])
-    const questions=[]
-    const answers=[]
-    const QA=[]
-    var i=0
-    var j=0
     const preventDefault = (event) => event.preventDefault();
         useEffect(()=>{
             fetch("http://localhost:3300/mainpage2")
@@ -43,30 +41,40 @@ function AllQuestions(props)
                 console.log(data)
             })
         },[])
-
        
     return(
         <div>
             <NavBar />
             <Header1 heading="All Questions"/>
-        <form action="" name = "allquestions" className ={classes.root}>
-        <Divider/>
-        {notes.map(e =>(
-        <Box>
-            <div style={{marginLeft:100}}>
-            <Typography gutterBottom variant="h6" color ="default">
-                <Link href="/question">
-                    {e.Title}
-                </Link>
-            </Typography>
-            <Typography gutterBottom variant="h6" color ="default">
-                   {e.Body}
-            </Typography>
-            <Divider/>
-            </div>
-        </Box>
-        ))}
-        </form>
+            <form action="" name = "allquestions" className ={classes.root}>
+            {notes.map(e =>(
+                <Paper className={classes.paper}>
+                <Grid container spacing={1}>
+                <Grid alignItems="center" justifyContent="center" item xs={1}>
+                    <Paper className={classes.paper}>
+                    <Typography gutterBottom variant='h6' color="#000" align='center'>
+                        {e.Score}
+                    </Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={11}>
+                <Paper className={classes.paper}>
+                <Box>
+                    <Typography gutterBottom variant="h6" color ="#000">
+                        <Link href = {"/question/"+e.Id}>
+                            {e.Title}
+                        </Link>
+                    </Typography>
+                    <Typography gutterBottom variant="h6" color ="#000">
+                        {e.Body}
+                    </Typography>
+                </Box>
+                </Paper>
+                </Grid>
+                </Grid>
+                </Paper>
+            ))}
+            </form>
         </div>
     )
 }

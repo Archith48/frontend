@@ -1,16 +1,11 @@
-import '@fontsource/roboto';
-import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link'
 import React, { useEffect } from 'react';
-import  {Route as Router} from 'react-router-dom';
 import { useState } from 'react';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { IconButton } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
+import { Grid } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 import Header1 from './Header1';
 import NavBar from './NavBar';
@@ -23,42 +18,26 @@ const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
           margin: theme.spacing(1),
-          width: "100%"
+          width: "100%",
         }
-      }
+    },
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: 1500,
+    },
+    page: {
+        background:"white",
+        width:"100%"
+    }
 }));
-
-function upvote(Id)
-{
-    console.log(Id)
-    fetch("http://localhost:8060/questions?"+Id)
-        .then(res=>res.json())
-        .then(data=>{
-            fetch("http://localhost/8060/questions?"+Id,{
-                method:"POST",
-                headers:{"Content-type":"application/json"},
-                body:data.Score=data.Score+1
-            })
-        })    
-}
 
 function Trending(props)
 {
     const [notes,setNotes]=useState([])
     const classes = useStyles();
-    const history = useHistory();
     const preventDefault = (event) => event.preventDefault();
-    const handleOnClick = (e)=>{
-        history.push("/question")                
-    }
-    /*const upvote=(e)=>{
-        console.log("Up vote")
-        console.log(e)
-    }*/
-    const downvote=(e)=>{
-        console.log("Down vote")
-        console.log(e)
-    }
+
     useEffect(()=>{
         fetch("http://localhost:3300/trending")
         .then(res=>res.json())
@@ -72,25 +51,33 @@ function Trending(props)
         <NavBar />
         <Header1 heading = "Trending Questions"/>
         <form action="" name = "trending" className ={classes.root}>
-        <Box>
-            <Typography gutterBottom variant="h5" component="h4" color ="#000">
-                    {notes.map(note=>(
-                        <Box>
-                            <Typography key={note._id}>
-                                <Link href="/question" onClick={handleOnClick}>                               
-                                    {note.Title}
-                                </Link>
-                            </Typography>
-                            <Typography key={note._id}>                            
-                                {note.Body}
-                            </Typography>
-                            <Divider/>
-                        </Box>
-                    ))}
-                
-            </Typography>
-            <Divider/>
-        </Box>
+            {notes.map(e =>(
+                <Paper className={classes.paper}>
+                <Grid container spacing={1}>
+                <Grid alignItems="center" justifyContent="center" item xs={1}>
+                    <Paper className={classes.paper}>
+                    <Typography gutterBottom variant='h6' color="#000" align='center'>
+                        {e.Score}
+                    </Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={11}>
+                <Paper className={classes.paper}>
+                <Box>
+                    <Typography gutterBottom variant="h6" color ="#000">
+                        <Link href = {"/question/"+e.Id}>
+                            {e.Title}
+                        </Link>
+                    </Typography>
+                    <Typography gutterBottom variant="h6" color ="#000">
+                        {e.Body}
+                    </Typography>
+                </Box>
+                </Paper>
+                </Grid>
+                </Grid>
+                </Paper>
+            ))}
         </form>
         </div>
     )

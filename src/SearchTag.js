@@ -15,6 +15,7 @@ import { useState } from 'react';
 import history from 'react-router-dom';
 import NavBar from './NavBar';
 import Header1 from './Header1';
+import { useParams } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -33,10 +34,14 @@ function SearchTag(props)
     const [notes,setNotes]=useState([])
     const classes = useStyles();
     const history=useHistory();
+    const params = useParams();
     const preventDefault = (event) => event.preventDefault();
+    var tag=params.tag
+    console.log(tag)
     const ques=[]
-    useEffect(()=>{
-    fetch('http://localhost:3300/searchTags',{
+ 
+    /*useEffect(()=>{
+    fetch(`http://localhost:3300/searchTags/${tag}`,{
         method:'POST',
         headers:{"Content-type":"application/json"},
         body:JSON.stringify({"Tags":["java"]})
@@ -46,28 +51,35 @@ function SearchTag(props)
             console.log(data)
             console.log(ques)
         })      
-    },[])
+    },[])*/
+    useEffect(()=>{
+        fetch(`http://localhost:3300/searchTags/${tag}`)
+        .then(res=>res.json())
+        .then(data=>{setNotes(data["questions"])
+        })
+    })
     return(
         <div>
-            <NavBar />
-            <Header1 heading="Search Tag Results" />
-            <form action="" name = "trending" className ={classes.root}>
-            <Box>
-                {notes.map(note=>(
-                    <Box>
-                <Typography gutterBottom variant="h6" key={note._id}>
-                    <Link href="/question">
-                        {note.Title}
-                    </Link>
-                </Typography>
-                <Typography gutterBottom variant="h6" key={note._id}>
-                    {note.Body}
-                </Typography>
-                </Box>
-                ))}
-                <Divider/>           
+            <NavBar/>
+            <Header1 heading="Search Tag Results"/>
+        <form action="" name = "trending" className ={classes.root}>
+        <Divider/>
+        <Box>
+            {notes.map(note=>(
+                <Box>
+            <Typography gutterBottom variant="h6" key={note._id}>
+                <Link href="/question">
+                    {note.Title}
+                </Link>
+            </Typography>
+            <Typography gutterBottom variant="h6" key={note._id}>
+                 {note.Body}
+            </Typography>
             </Box>
-            </form>
+             ))}
+            <Divider/>           
+        </Box>
+        </form>
         </div>
     )
 }

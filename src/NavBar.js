@@ -1,3 +1,4 @@
+
 import React from 'react';
 import clsx from 'clsx';
 import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
@@ -11,7 +12,6 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import GroupIcon from '@material-ui/icons/Group';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
@@ -29,11 +29,10 @@ import Box from '@material-ui/core/Box';
 import { ClickAwayListener, Drawer, Popover } from '@material-ui/core';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Button } from '@material-ui/core';
-
 import { useHistory } from "react-router-dom";
-
 import pic from './Telstra.png';
 
+var isLoggedIn = false
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -98,19 +97,7 @@ const useStyles = makeStyles((theme) => ({
     transition: theme.transitions.create('width'),
     width: '90%',
     [theme.breakpoints.up('md')]: {
-      width: '80ch',
-    },
-  },
-  sectionDesktop: {
-    display: 'none',
-    [theme.breakpoints.up('md')]: {
-      display: 'flex',
-    },
-  },
-  sectionMobile: {
-    display: 'flex',
-    [theme.breakpoints.up('md')]: {
-      display: 'none',
+      width: '70ch',
     },
   },
   popover: {
@@ -125,11 +112,64 @@ function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
 }
 
+function NavBarChanges(){
+  if (isLoggedIn){
+    return(
+      <div>
+        <IconButton aria-label="show 17 new notifications" color="#000">
+          <Badge badgeContent={17} color="secondary">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+        <IconButton
+          edge="end"
+          aria-label="account of current user"
+          aria-haspopup="true"
+          color="#000"
+        >
+          <AccountCircle />
+        </IconButton>
+      </div>
+    )
+  }
+  else {
+    return(
+      <div>
+        <Button variant="contained" color="primary" href='/login'>
+            LogIn
+        </Button>
+        <Button variant="outlined" color="primary" href = "/login">
+            SignUp
+        </Button>
+      </div>
+    )
+  }
+}
+
+function SideBarChanges(){
+  if (isLoggedIn){
+    return(
+      <div>
+      <ListItemLink href="/profile"><ListItemIcon><AccountCircle /></ListItemIcon><ListItemText primary="Profile" /></ListItemLink>
+      <ListItemLink href="/logout"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log Out" /></ListItemLink>
+      </div>
+    )
+  }
+  else{
+    return(
+      <div>
+      <ListItemLink href="/login"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log In" /></ListItemLink>
+      </div>
+    )
+  }
+}
+
 function NavBar() {
   document.title = "Skill Enhancment Portal"
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  var search_input;
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -140,7 +180,7 @@ function NavBar() {
   };
 
   const history = useHistory();
-
+  
   const handleKeyDown=(e)=>{
     if (e.key==='Enter')
     {
@@ -148,18 +188,21 @@ function NavBar() {
       console.log(e.target.value)
       if ((e.target.value).indexOf("name:")==0)
       {
-        history.push("/searchuser")
+        search_input=e.target.value.substring(5,(e.target.value).length)
+        history.push("/searchcusts/"+search_input)
         console.log("Name entered")
         console.log("After title")       
       }
       else if ((e.target.value).indexOf('"')==0 && (e.target.value).lastIndexOf('"')==(e.target.value).length-1)
       {
-        history.push("/searchpost")
+        search_input=(e.target.value).substring(1,(e.target.value).length-1)
+        history.push("/searchpost/"+search_input)
         console.log("Post entered")
       }
       else
       {
-        history.push("/searchTags")
+        search_input=(e.target.value).substring(1,(e.target.value).length-1)
+        history.push("/searchTags/"+search_input)
         console.log("Tag entered")
       }
     }
@@ -229,30 +272,7 @@ function NavBar() {
           )}
           </PopupState>
           <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 17 new notifications" color="#000">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-haspopup="true"
-              color="#000"
-            >
-              <AccountCircle />
-            </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
-            <IconButton
-              aria-label="show more"
-              aria-haspopup="true"
-              color="#000"
-            >
-              <MoreIcon />
-            </IconButton>
-          </div>
+          <NavBarChanges />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -276,8 +296,7 @@ function NavBar() {
           <ListItemLink href="/trending"><ListItemIcon><WhatshotIcon /></ListItemIcon><ListItemText primary="Trending" /></ListItemLink>
           <ListItemLink href="/users"><ListItemIcon><GroupIcon /></ListItemIcon><ListItemText primary="Users" /></ListItemLink>
           <ListItemLink href="/askquestion"><ListItemIcon><PostAddIcon /></ListItemIcon><ListItemText primary="Ask Question" /></ListItemLink>
-          <ListItemLink href="/profile"><ListItemIcon><AccountCircle /></ListItemIcon><ListItemText primary="Profile" /></ListItemLink>
-          <ListItemLink href="/logout"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log Out" /></ListItemLink>
+          <SideBarChanges />
         </List>
         <Divider />
         </Drawer>
