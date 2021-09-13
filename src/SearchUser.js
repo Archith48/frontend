@@ -15,6 +15,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import NavBar from './NavBar';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -38,20 +40,56 @@ function createData(name,no_of_questions_posted,no_of_answers) {
 function SearchUser(props)
 {
     const classes = useStyles();
+    const params = useParams();
+    const [notes,setNotes]=useState([])
+    const rows=[]
+    var notes1=[]
     const preventDefault = (event) => event.preventDefault();
-    const rows = [
-        createData('Peter',10,20),
-        createData('Sam',20,50)
-      ];
+    var name=params.name
+    var qcount=0
+    var anscount=0
+      useEffect(()=>{
+        fetch(`http://localhost:3300/searchcusts/${name}`)
+        .then(res=>res.json())
+        .then(data=>{setNotes(data)
+            notes1=data
+            notes1.map(e=>{
+                fetch(`http://localhost:5050/users/${e.Id}/totalquestions`,{
+                method:'GET',
+                headers:{"Content-type":"application/json"}
+                })
+                .then(res=>res.json())
+                .then(data=>{qcount=data
+                })
+                .then(()=>{
+                    fetch(`http://localhost:5050/users/${e.Id}/totalanswers`,{
+                        method:'GET',
+                        headers:{"Content-type":"application/json"}
+                    })
+                    .then(res=>res.json())
+                    .then(data=>{
+                        anscount=data
+                    })
+                }) 
+                .then(()=>{
+                    rows.push(createData(e.displayName,qcount,anscount))
+                    console.log(rows)
+                })                           
+            })
+        })
+    },[])
+    
     return(
         <div>
-        <NavBar />
+            <NavBar/>
         <form action="" name = "searchuser" className ={classes.root}>
         <Typography gutterBottom variant="h4" component="h4">
-            <b>Search Results</b>
+            <b>Search Results </b>
         </Typography>
         <Divider/>
         <Box>
+        {rows.length}
+        {rows.map(note=>( 
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
@@ -62,18 +100,17 @@ function SearchUser(props)
                     </TableRow>
                     </TableHead>
                     <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
+                        <TableRow>
                         <TableCell component="th" scope="row" align="center">
-                            {row.name}
+                            {note.name}
                         </TableCell>
-                        <TableCell align="center">{row.no_of_questions_posted}</TableCell>
-                        <TableCell align="center">{row.no_of_answers}</TableCell>
+                        <TableCell align="center">{note.no_of_questions_posted}</TableCell>
+                        <TableCell align="center">{note.no_of_answers}</TableCell>
                         </TableRow>
-                    ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+            ))}
             </Box>
         </form>
         </div>

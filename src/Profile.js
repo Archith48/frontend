@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Divider } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import pic from './Telstra.png';
 import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
 import { DataGrid } from '@mui/x-data-grid';
 import Grid from '@material-ui/core/Grid';
@@ -74,13 +73,13 @@ const useStyles=makeStyles((theme)=> ({
 const columns = [
     { field: 'id', headerName: 'ID', width: 100 },
     {
-      field: 'PostedOn',
+      field: 'CreationDate',
       headerName: 'Posted On',
       width: 150,
       editable: true,
     },
     {
-        field: 'question',
+        field: 'Body',
         headerName: 'Question',
         width: 690,
         editable: true,
@@ -92,23 +91,12 @@ const columns = [
         editable: true,
       },
       {
-        field: 'score',
+        field: 'Score',
         headerName: 'Score',
         width: 120,
         editable: true,
       },
       ];
-  const rows = [
-    { id: 1, question: 'What is Redux', PostedOn: '2021-01-01', answers: '4', score: '4' },
-    { id: 2, question: 'Coding with Class Components', PostedOn: '2021-01-02', answers: '0', score: '4' },
-    { id: 3, question: 'Module Not found error', PostedOn: '2021-01-03', answers: '2', score: '4' },
-    { id: 4, question: 'Compilation error', PostedOn: '2021-01-04', answers: '3', score: '4' },
-    { id: 5, question: 'Runtime Error', PostedOn: '2021-01-05', answers: '1', score: '4' },
-    { id: 6, question: 'Syntax Error', PostedOn: '2021-01-06', answers: '5', score: '4' },
-    { id: 7, question: 'Compiler error', PostedOn: '2021-01-07', answers: '5', score: '4' },
-    { id: 8, question: 'Dependency Error', PostedOn: '2021-01-08' , answers: '7', score: '4' },
-    { id: 9, question: 'Not able to find the version of the software', PostedOn: '2021-01-09', answers: '0', score: '4'  },
-  ];
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -149,45 +137,94 @@ function Profile() {
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
+
+    //const user_id="106054907602357766738";
+    const user_id = JSON.parse(window.localStorage.getItem('profile')).Id;
+    
+    //const [id, setid] = useState(2)
+    const [data, setData] = useState([])
   
+  useEffect(()=>{
+  //fetch(`http://localhost:5050/users/${JSON.parse(localStorage.getItem('profile')).user._id}`)
+   fetch(`http://localhost:5050/users/${user_id}`)
+   .then(res=>res.json())
+   .then(data=>{
+     setData(data)
+     console.log(data)
+     //console.log(data.length)
+   })
+},[])
+
+  const [questions, setQuestions] = useState([])
+
+  useEffect(()=>{
+    fetch(`http://localhost:5050/users/${user_id}/questions`)
+    .then(res=>res.json())
+    .then(questions=>{setQuestions(questions)
+        console.log(questions)
+    })
+},[])
+
+const [answers, setAnswers] = useState([])
+
+useEffect(()=>{
+  fetch(`http://localhost:5050/users/${user_id}/answers`)
+  .then(res=>res.json())
+  .then(answers=>{setAnswers(answers)
+      console.log(answers)
+  })
+},[])
+
+const [comments, setComments] = useState([])
+
+useEffect(()=>{
+  fetch(`http://localhost:5050/users/${user_id}/comments`)
+  .then(res=>res.json())
+  .then(comments=>{setComments(comments)
+      console.log(comments)
+  })
+},[])
+
     return (
         <>
         <NavBar />
         <div className={classes.roots}><a href='/profile'>
-            <img height='120px' width="120px" src={pic} alt="ProfileImage" align="center" style={{marginTop:'20px'}} ></img></a>
-            <Box padding="50px" color="textsecondary">
+            <img height='120px' width="120px" src={data.image} alt="ProfileImage" align="center" style={{marginTop:'40px'}} ></img></a>
+            <Box padding="20px" color="textsecondary">
                 <a href='/profile' style={{ textDecoration: 'None' }}>
-                    Name: <b>Pradyumna S K</b> <br />
-                    username: <b>pradyumnakedilaya</b> <br />
-                    Joined: <b>January 27 2021</b><br />
-                    Last Visited: <b>September 3 2021</b><br />
+                    Name: <b>{data.displayName}</b> <br />
+                    username: <b>{data.username}</b> <br />
+                    Joined: <b>{data.creationDate}</b><br />
+                    Gender: <b>{data.gender}</b><br />
+                    LastLogin: <b>{data.LastLogin}</b><br />
                     </a>
-                <a href='https://linkedin.com/in/pradyumnakedilaya' style={{ textDecoration: 'None' }}>
-                    Social Link: <b>linkedin.in/pradyumnakedilaya</b>
-                </a>
+                <a href={data.SocialLink} style={{ textDecoration: 'None' }}>
+                    Social Link: <b>{data.SocialLink}</b>
+                </a><br></br>
+
             </Box>
 
 <div>
 <div className={classes.roots}>
       <Grid container spacing={4}>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Paper className={classes.paper}>
             Questions<br></br>10
             </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Paper className={classes.paper}>
           Answers<br></br>0
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Paper className={classes.paper}>
           Comments<br></br>24
           </Paper>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           <Paper className={classes.paper}>
-          Score<br></br>96
+          Score<br></br>{data.grade}
           </Paper>
         </Grid>
       </Grid>
@@ -207,38 +244,64 @@ function Profile() {
             <Divider />
         </div>
     <div className={classes.root}>
-      <AppBar position="static">
+      <><AppBar position="static">
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Questions" {...a11yProps(0)} />
           <Tab label="Answers" {...a11yProps(1)} />
           <Tab label="Comments" {...a11yProps(2)} />
         </Tabs>
-      </AppBar>
-      <TabPanel value={value} index={0}>
-    <div style={{ height: 400, width: '100%' }}>
-    <DataGrid
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[4]}
-        //checkboxSelection
-        disableSelectionOnClick
-        onCellDoubleClick={(GridCellParams, event) => {
-            if (event) {
-                alert('GridCellParams.tabIndex : '+JSON.stringify(GridCellParams.tabIndex))
-                console.log(JSON.stringify(GridCellParams.tabIndex))
-                //window.location.href =  `/questions/${GridCellParams.id}`;
-            }
-          }}
-      />
-    </div>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Answers
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Comments
-      </TabPanel>
+      </AppBar><TabPanel value={value} index={0}>
+          <div style={{ height: 400, width: '100%' }}>
+            <DataGrid getRowId={(row) => row.Id}
+              rows={questions}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[4]}
+              //checkboxSelection
+              disableSelectionOnClick
+              onCellDoubleClick={(GridCellParams, event) => {
+                if (event) {
+                  alert('GridCellParams.tabIndex : ' + JSON.stringify(GridCellParams.tabIndex));
+                  console.log(JSON.stringify(GridCellParams.tabIndex));
+                  //window.location.href =  `/questions/${GridCellParams.id}`;
+                }
+              } } />
+          </div>
+        </TabPanel><TabPanel value={value} index={1}>
+        <div style={{ height: 400, width: '100%' }}>
+            <DataGrid getRowId={(row) => row.Id}
+              rows={answers}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[4]}
+              //checkboxSelection
+              disableSelectionOnClick
+              onCellDoubleClick={(GridCellParams, event) => {
+                if (event) {
+                  alert('GridCellParams.tabIndex : ' + JSON.stringify(GridCellParams.tabIndex));
+                  console.log(JSON.stringify(GridCellParams.tabIndex));
+                  //window.location.href =  `/questions/${GridCellParams.id}`;
+                }
+              } } />
+          </div>
+        </TabPanel><TabPanel value={value} index={2}>
+        <div style={{ height: 400, width: '100%' }}>
+            <DataGrid getRowId={(row) => row.Id}
+              rows={comments}
+              columns={columns}
+              pageSize={5}
+              rowsPerPageOptions={[4]}
+              //checkboxSelection
+              disableSelectionOnClick
+              onCellDoubleClick={(GridCellParams, event) => {
+                if (event) {
+                  alert('GridCellParams.tabIndex : ' + JSON.stringify(GridCellParams.tabIndex));
+                  console.log(JSON.stringify(GridCellParams.tabIndex));
+                  //window.location.href =  `/questions/${GridCellParams.id}`;
+                }
+              } } />
+          </div>
+        </TabPanel></>
     </div>    
         </>
       

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import Badge from '@material-ui/core/Badge';
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -9,11 +10,13 @@ import { ListItem, List, ListItemIcon, ListItemText } from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import Notifications from "./Notifications";
 
+
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
 }
 
 function NavBarChanges(props){
+    var history = useHistory()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [anchorElProfile, setAnchorElProfile] = React.useState(null);
 
@@ -37,7 +40,6 @@ function NavBarChanges(props){
     const openProfile = Boolean(anchorElProfile);
     const id = open ? 'simple-popover' : undefined;
     const idProfile = openProfile ? 'simple-popover-profile' : undefined;
-
 
     if (props.status){
       return(
@@ -95,7 +97,11 @@ function NavBarChanges(props){
           <List>
           <ListItemLink href="/profile"><ListItemIcon><AccountCircle /></ListItemIcon><ListItemText primary="Profile" /></ListItemLink>
           <ListItemLink href="/users"><ListItemIcon><EditIcon /></ListItemIcon><ListItemText primary="Edit Profile" /></ListItemLink>
-            <ListItemLink href="/logout"><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log Out" /></ListItemLink>
+          <ListItemLink onClick={()=>{
+            localStorage.clear()
+            history.push('/')
+            window.location.reload()
+          }}><ListItemIcon><PowerSettingsNewIcon /></ListItemIcon><ListItemText primary="Log Out" /></ListItemLink>
         </List>
         </Popover>
         </div>
@@ -104,11 +110,8 @@ function NavBarChanges(props){
     else {
       return(
         <div>
-          <Button variant="contained" color="primary" href='/login'>
+          <Button variant="contained" color="primary" href="/login">
               LogIn
-          </Button>
-          <Button variant="outlined" color="primary" href = "/login">
-              SignUp
           </Button>
         </div>
       )

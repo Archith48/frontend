@@ -5,13 +5,6 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link'
 import React from 'react';
-import  {Route as Router} from 'react-router-dom';
-import { Route,NavLink,HashRouter } from 'react-router-dom';
-import Question from './Question';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { IconButton } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
 import { useEffect } from 'react';
 import { useState } from 'react';
 import NavBar from './NavBar';
@@ -39,19 +32,6 @@ function SearchPost()
     const preventDefault = (event) => event.preventDefault();
     var search_input=params.search_string
     console.log(search_input)
-    const question=[]
-    const answers=[]
-    /*useEffect(()=>{
-        fetch(`http://localhost:3300/searchpost/${search_input}`,{
-            method:'POST',
-            headers:{"Content-type":"application/json"},
-            body:JSON.stringify({"search_string":"java c++ oauth"})
-            })//.then(()=>history.push('/'))  
-            .then(res=>(res.json()))      
-            .then(data=>{setNotes(data["questions"])
-                console.log(data)
-            })      
-        },[])*/
 
     useEffect(()=>{
         fetch(`http://localhost:3300/searchpost/${search_input}`)
@@ -59,20 +39,17 @@ function SearchPost()
         .then(data=>{setNotes(data["questions"])
         })
     })
+    
     return(
         <div>
             <NavBar/>
-            <Header1/>
+            <Header1 heading="Search Post Results" />
         <form action="" name = "searchpost" className ={classes.root}>
-        <Typography gutterBottom variant="h4" component="h4" color ="#000">
-            <b>Search Results</b>
-        </Typography>
-        <Divider/>
-        <Box>   
+        <Box>
            {notes.map(e=>(
             <div style={{marginLeft:100}}>
             <Typography gutterBottom variant="h6" color ="#000">
-                <Link href="/question">
+                <Link href={"/question/"+e.Id}>
                    {e.Title}
                 </Link>
             </Typography>

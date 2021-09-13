@@ -51,11 +51,10 @@ function AllQuestions(props)
                 <Paper className={classes.paper}>
                 <Grid container spacing={1}>
                 <Grid alignItems="center" justifyContent="center" item xs={1}>
-                    <Paper className={classes.paper}>
-                    <Typography gutterBottom variant='h6' color="#000" align='center'>
-                        {e.Score}
+                    <Typography gutterBottom variant='body1' color="#000" align='justify'>
+                        Score = {e.Score}<br/>
+                        {e.ViewCount} views
                     </Typography>
-                    </Paper>
                 </Grid>
                 <Grid item xs={11}>
                 <Paper className={classes.paper}>
@@ -65,7 +64,7 @@ function AllQuestions(props)
                             {e.Title}
                         </Link>
                     </Typography>
-                    <Typography gutterBottom variant="h6" color ="#000">
+                    <Typography gutterBottom variant="body1" color ="#000">
                         {e.Body}
                     </Typography>
                 </Box>

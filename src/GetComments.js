@@ -26,7 +26,7 @@ function GetComments(props){
     const [comment,setComment]=useState([]);
     var id = props.id
     useEffect(()=>{
-        fetch(`http://localhost:8075/question/${id}/comments`,{method:'GET'})
+        fetch(`http://localhost:8075/questions/${id}/comments`,{method:'GET'})
         .then(res=>res.json())
         .then(data=>{setComment(data)})
     },[])

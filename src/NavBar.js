@@ -30,6 +30,9 @@ import NavBarChanges from './NavBarChanges';
 import SideBarChanges from './SideBarChanges';
 
 var isLoggedIn = false
+if(localStorage.getItem('profile')){
+  isLoggedIn = true
+}
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -131,14 +134,14 @@ function NavBar() {
     {
       console.log("Entered")
       console.log(e.target.value)
-      if ((e.target.value).indexOf("name:")==0)
+      if ((e.target.value).indexOf("name:")===0)
       {
         search_input=e.target.value.substring(5,(e.target.value).length)
         history.push("/searchcusts/"+search_input)
         console.log("Name entered")
         console.log("After title")       
       }
-      else if ((e.target.value).indexOf('"')==0 && (e.target.value).lastIndexOf('"')==(e.target.value).length-1)
+      else if ((e.target.value).indexOf('"')===0 && (e.target.value).lastIndexOf('"')===(e.target.value).length-1)
       {
         search_input=(e.target.value).substring(1,(e.target.value).length-1)
         history.push("/searchpost/"+search_input)

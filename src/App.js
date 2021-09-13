@@ -12,6 +12,7 @@ import SearchTag from './SearchTag';
 import Users from './Users';
 import Profile from './Profile';
 import Login from './Login';
+import Server from './Server';
 
 function App() {
   document.title = "Skill Enhancment Portal"
@@ -29,6 +30,7 @@ function App() {
         <Route exact path="/question/:q_id" component={Question}/>
         <Route exact path="/trending" component={Trending}/>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/server" component={Server} />
         <Route path= "/" component={Home}/>
       </Switch>
       </Router>
