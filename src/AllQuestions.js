@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function AllQuestions(props)
+function AllQuestions()
 {
     const classes = useStyles();
     const[notes,setNotes]=useState([])
@@ -46,7 +46,6 @@ function AllQuestions(props)
         <div>
             <NavBar />
             <Header1 heading="All Questions"/>
-            <form action="" name = "allquestions" className ={classes.root}>
             {notes.map(e =>(
                 <Paper className={classes.paper}>
                 <Grid container spacing={1}>
@@ -73,7 +72,6 @@ function AllQuestions(props)
                 </Grid>
                 </Paper>
             ))}
-            </form>
         </div>
     )
 }
