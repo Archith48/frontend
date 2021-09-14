@@ -5,12 +5,18 @@ import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link'
 import React from 'react';
+import  {Route as Router} from 'react-router-dom';
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ThumbDownIcon from '@material-ui/icons/ThumbDown';
+import { IconButton } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import { useEffect } from 'react';
 import { useState } from 'react';
+import history from 'react-router-dom';
 import NavBar from './NavBar';
 import Header1 from './Header1';
 import { useParams } from 'react-router-dom';
+
 import { Grid, Paper } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,24 +26,29 @@ const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
           margin: theme.spacing(1),
-          width: "100%"
-        }      
+          width: "100%",
+        }
     },
     paper: {
         padding: theme.spacing(2),
         margin: 'auto',
         maxWidth: 1500,
+    },
+    page: {
+        background:"white",
+        width:"100%"
     }
 }));
 
-function SearchTag(props)
+
+function SearchTag()
 {
     const [notes,setNotes]=useState([])
     const classes = useStyles();
+    const history=useHistory();
     const params = useParams();
     const preventDefault = (event) => event.preventDefault();
     var tag=params.tag
-
     useEffect(()=>{
         fetch(`http://localhost:3300/searchTags/${tag}`)
         .then(res=>res.json())
@@ -47,10 +58,10 @@ function SearchTag(props)
     return(
         <div>
             <NavBar/>
-            <Header1 heading="Search Tag Results"/>
-        <form action="" name = "trending" className ={classes.root}>
+            <Header1 heading="Search Tag Results"/>        
+        <Divider/>
         <Box>
-        {notes.map(e =>(
+            {notes.map(e=>(
                 <Paper className={classes.paper}>
                 <Grid container spacing={1}>
                 <Grid alignItems="center" justifyContent="center" item xs={1}>
@@ -75,10 +86,10 @@ function SearchTag(props)
                 </Grid>
                 </Grid>
                 </Paper>
-            ))}
-            <Divider/>       
+             
+             ))}
+            <Divider/>           
         </Box>
-        </form>
         </div>
     )
 }
