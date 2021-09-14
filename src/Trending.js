@@ -1,19 +1,15 @@
-import '@fontsource/roboto';
-import { alpha, makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Divider from '@material-ui/core/Divider';
 import Link from '@material-ui/core/Link'
 import React, { useEffect } from 'react';
-import  {Route as Router} from 'react-router-dom';
 import { useState } from 'react';
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ThumbDownIcon from '@material-ui/icons/ThumbDown';
-import { IconButton } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-import NavBar from './NavBar';
+import { Grid } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
+
 import Header1 from './Header1';
-import { Grid, Paper } from '@material-ui/core';
+import NavBar from './NavBar';
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -29,23 +25,15 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2),
         margin: 'auto',
         maxWidth: 1500,
-    },
-    page: {
-        background:"white",
-        width:"100%"
     }
 }));
 
-function Trending()
+function Trending(props)
 {
     const [notes,setNotes]=useState([])
     const classes = useStyles();
-    const history = useHistory();
     const preventDefault = (event) => event.preventDefault();
-    const handleOnClick = (e)=>{
-        history.push("/question")                
-    }
-   
+
     useEffect(()=>{
         fetch("http://localhost:3300/trending")
         .then(res=>res.json())
@@ -53,14 +41,12 @@ function Trending()
             console.log(data)
         })
     },[])
+
     return(
         <div>
-            <NavBar/>
-            <Header1 heading="Trending questions"/>
-        <Divider/>
-        <Box>
-            <Typography gutterBottom variant="h5" component="h4" color ="#000">
-            {notes.map(e =>(
+        <NavBar />
+        <Header1 heading = "Trending Questions"/>
+        {notes.map(e =>(
                 <Paper className={classes.paper}>
                 <Grid container spacing={1}>
                 <Grid alignItems="center" justifyContent="center" item xs={1}>
@@ -85,10 +71,7 @@ function Trending()
                 </Grid>
                 </Grid>
                 </Paper>
-            ))}                
-            </Typography>
-            <Divider/>
-        </Box>
+            ))}
         </div>
     )
 }
