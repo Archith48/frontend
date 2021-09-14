@@ -15,6 +15,11 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import NavBar from './NavBar';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import Header1 from './Header1';
+import { Grid } from '@material-ui/core';
+
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -23,59 +28,55 @@ const useStyles = makeStyles((theme) => ({
     root: {
         "& > *": {
           margin: theme.spacing(1),
-          width: "100%"
-        }      
+          width: "100%",
+        }
     },
-    table: {
-        minWidth: 650,
-      }
+    paper: {
+        padding: theme.spacing(2),
+        margin: 'auto',
+        maxWidth: 1500,
+    },
+    page: {
+        background:"white",
+        width:"100%"
+    }
 }));
 
-function createData(name,no_of_questions_posted,no_of_answers) {
-    return { name, no_of_questions_posted,no_of_answers };
-  }  
-
-function SearchUser(props)
+function SearchUser()
 {
     const classes = useStyles();
+    const params = useParams();
+    const [notes,setNotes]=useState([])
     const preventDefault = (event) => event.preventDefault();
-    const rows = [
-        createData('Peter',10,20),
-        createData('Sam',20,50)
-      ];
+    var name=params.name
+      useEffect(()=>{
+        fetch(`http://localhost:3300/searchcusts/${name}`)
+        .then(res=>res.json())
+        .then(data=>{setNotes(data)
+        })
+    })
+    
     return(
         <div>
-        <NavBar />
-        <form action="" name = "searchuser" className ={classes.root}>
-        <Typography gutterBottom variant="h4" component="h4">
-            <b>Search Results</b>
-        </Typography>
-        <Divider/>
-        <Box>
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                    <TableRow>
-                        <TableCell align="center"><b>Name</b></TableCell>
-                        <TableCell align="center"><b>No of questions posted</b></TableCell>
-                        <TableCell align="center"><b>No of answers</b></TableCell>
-                    </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
-                        <TableCell component="th" scope="row" align="center">
-                            {row.name}
-                        </TableCell>
-                        <TableCell align="center">{row.no_of_questions_posted}</TableCell>
-                        <TableCell align="center">{row.no_of_answers}</TableCell>
-                        </TableRow>
-                    ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            </Box>
-        </form>
+            <NavBar/>
+            <Header1 heading="Search Results"/>
+            {notes.map(e =>(
+                <Paper className={classes.paper}>
+                <Grid container spacing={1}>
+                <Grid item xs={11}>
+                <Paper className={classes.paper}>
+                <Box>
+                    <Typography gutterBottom variant="h6" color ="#000">
+                        <Link href = {"/users/"+e.Id}>
+                            {e.displayName}
+                        </Link>
+                    </Typography>
+                </Box>
+                </Paper>
+                </Grid>
+                </Grid>
+                </Paper>
+            ))}
         </div>
     )
 }
