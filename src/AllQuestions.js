@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function AllQuestions()
+function AllQuestions(props)
 {
     const classes = useStyles();
     const[notes,setNotes]=useState([])
